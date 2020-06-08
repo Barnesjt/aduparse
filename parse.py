@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
 
 # This file parses adudump output
-# It expects 2 arguments:
-#  Minimum size, and filename.
+# It expects 3 arguments:
+# Source port, minimum size, and filename.
 
 import sys
 
 # If the wrong number of arguments, print usage
-if(len(sys.argv) != 3):
-    print("Usage: "+sys.argv[0]+" minSize filename")
-    print("Example: "+sys.argv[0]+" 100000 example.adu")
+if(len(sys.argv) != 4):
+    print("Usage: "+sys.argv[0]+" port minSize filename")
+    print("Example: "+sys.argv[0]+" 80 100000 example.adu")
 
 # If the first argument isn't only [0-9], print error
-elif(not sys.argv[1].isdigit()):
+elif((not sys.argv[1].isdigit()) or (not sys.argv[2].isdigit)):
     print("Error: Parameter is not a digit")
+
+# The second argument (port), must be less than or equal to 65535
+elif(int(sys.argv[1]) > 65535):
+    print("Error: Port must be <= 65535")
 
 # Otherwise parse the file
 else:
     # Gather command line parameters
-    minSize = int(sys.argv[1])
-    filename = sys.argv[2]
+    port = sys.argv[1]
+    minSize = int(sys.argv[2])
+    filename = sys.argv[3]
 
     #Try to open the file, if an error is encounter, print an error and halt
     try:
@@ -43,7 +48,6 @@ else:
         size = int(fields[5])
         if(size < minSize):
             continue
-
         timestamp = fields[1]
 
         #Get the direction (first character only)
@@ -62,7 +66,8 @@ else:
         src = fields[srcInd].rsplit('.', 1)
         dest = fields[dstInd].rsplit('.', 1)
 
-        if(src[1] != "443"):
+        #The source must come from the port that matches the program argument
+        if(src[1] != port):
             continue
 
         #Write the result to the output file
