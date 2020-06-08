@@ -17,5 +17,5 @@ _Note:_ Replace `wlp1s0` with your own interface and the ip/mask with your own. 
 
 ### Run the Script
 ```
-./parse.py 50000 ./testdata.adu
+./parse.py 80 50000 ./testdata.adu
 ```
