@@ -2,7 +2,7 @@
 
 This python script does a quick parsing of data from adudump.
 
-It accepts 2 parameters, the first is an integer to use for the minimum size (other ADU entries are filtered out). THe second parameter is the filename. The resulting parse is output to filename+".out". To see an example of this parsing have a look at the test data.
+It accepts 3 parameters. The first is the port of the source host to filter by. The second is an integer to use for the minimum size (other ADU entries are filtered out). The third parameter is the filename. The resulting parse is output to filename+".out". To see an example of this parsing have a look at the test data.
 
 ### Generating Data
 To generate the data to be used by the script, the following commands are used:
